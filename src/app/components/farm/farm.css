@@ -11,17 +11,26 @@
     position: relative;
     overflow: hidden;
     border-bottom: 2px solid #b3c9b3;
+    background-image: url('/assets/images/fon.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .player, .enemy {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 64px;  /* Увеличим размер для картинок */
+    height: 64px;
     font-size: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: top 0.5s ease-in-out, left 0.5s ease-in-out;
+}
+
+.player img, .enemy img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Сохраняем пропорции картинки */
 }
 
 /* --- Игровой UI --- */

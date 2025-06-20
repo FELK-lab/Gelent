@@ -3,16 +3,14 @@
     <div class="game-world">
         <!-- Персонаж -->
         <div class="player" [style.left.px]="player.x" [style.top.px]="player.y">
-            <!-- Временно используем эмодзи -->
-            🧑‍🌾
+            <img src="/assets/images/Slis.jpg" alt="Player">
         </div>
 
         <!-- Враги -->
         @for(enemy of enemies; track enemy.id) {
             @if(enemy.isAlive) {
                 <div class="enemy" [style.left.px]="enemy.x" [style.top.px]="enemy.y">
-                    <!-- Временно используем эмодзи -->
-                    몬
+                    <img [src]="enemy.image" alt="Enemy">
                 </div>
             }
         }

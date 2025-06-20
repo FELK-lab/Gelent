@@ -17,6 +17,7 @@ interface Enemy extends Character {
   id: number;
   hp: number;
   isAlive: boolean;
+  image: string;
 }
 
 @Component({
@@ -38,6 +39,10 @@ export class Farm implements OnInit {
   enemies: Enemy[] = [];
   isAttacking = false;
   private enemyIdCounter = 0;
+  private enemyTypes = [
+    '/assets/images/ORK.jpg',
+    '/assets/images/Kras.jpg'
+  ];
 
   ngOnInit() {
     // Создаем начальных врагов
@@ -47,12 +52,16 @@ export class Farm implements OnInit {
   }
 
   spawnEnemy() {
+    // Выбираем случайный тип врага
+    const randomImage = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
+
     const newEnemy: Enemy = {
       id: this.enemyIdCounter++,
       x: Math.random() * 280 + 10, // Случайная позиция по X
       y: Math.random() * 150 + 20, // Случайная позиция по Y
       hp: 3, // Враг умирает за 3 удара
       isAlive: true,
+      image: randomImage,
     };
     this.enemies.push(newEnemy);
   }
