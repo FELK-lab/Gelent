@@ -50,3 +50,8 @@
     font-weight: 700;
     color: #000;
 }
+
+.stats-container-link {
+    text-decoration: none;
+    color: inherit;
+}

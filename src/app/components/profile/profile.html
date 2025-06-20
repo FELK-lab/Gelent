@@ -6,16 +6,18 @@
         <h1 class="username">{{ telegram.user.first_name }} {{ telegram.user.last_name }}</h1>
         <p class="user-handle">{{ telegram.user.username ? '@' + telegram.user.username : 'ID: ' + telegram.user.id }}</p>
         
-        <div class="stats-container">
-            <div class="stat-item">
-                <span class="stat-label">Рейтинг</span>
-                <span class="stat-value">#123</span> <!-- Заглушка -->
+        <a routerLink="/rating" class="stats-container-link">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">Рейтинг</span>
+                    <span class="stat-value">#123</span> <!-- Заглушка -->
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Золото</span>
+                    <span class="stat-value">5,000</span> <!-- Заглушка -->
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-label">Золото</span>
-                <span class="stat-value">5,000</span> <!-- Заглушка -->
-            </div>
-        </div>
+        </a>
     </div>
 } @else {
     <div class="profile-container">
