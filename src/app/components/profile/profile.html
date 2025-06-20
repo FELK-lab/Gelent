@@ -1,1 +1,22 @@
-<p>profile works!</p>
+@if (telegram.user) {
+    <div class="profile-container">
+        <h1 class="username">{{ telegram.user?.first_name }} {{ telegram.user?.last_name }}</h1>
+        <p class="user-id">Ваш ID: {{ telegram.user?.id }}</p>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-label">Рейтинг</span>
+                <span class="stat-value">#123</span> <!-- Заглушка -->
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Золото</span>
+                <span class="stat-value">5,000</span> <!-- Заглушка -->
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="profile-container">
+        <h1>Профиль</h1>
+        <p>Не удалось получить данные пользователя. Пожалуйста, убедитесь, что вы открыли приложение через Telegram.</p>
+    </div>
+}
