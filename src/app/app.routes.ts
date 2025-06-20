@@ -1,8 +1,17 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Calculator } from './components/calculator/calculator';
+import { Profile } from './components/profile/profile';
+import { Collection } from './components/collection/collection';
+import { Farm } from './components/farm/farm';
+import { Rating } from './components/rating/rating';
 
 export const routes: Routes = [
-    { path: '', component: Home },
+    { path: '', redirectTo: 'profile', pathMatch: 'full' },
+    { path: 'home', component: Home },
+    { path: 'profile', component: Profile },
+    { path: 'collection', component: Collection },
+    { path: 'farm', component: Farm },
+    { path: 'rating', component: Rating },
     { path: 'calculator', component: Calculator },
 ];
