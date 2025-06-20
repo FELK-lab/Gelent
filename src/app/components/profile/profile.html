@@ -1,16 +1,32 @@
 @if (telegram.user) {
     <div class="profile-container">
+        <!-- Верхний бар с валютой и кнопками -->
+        <div class="top-bar">
+            <div class="currency-box-top-left">
+                <div class="currency-item">🪙 5,000</div>
+                <div class="currency-item">💎 150</div>
+            </div>
+            <div class="actions-box-top-right">
+                <a href="#" class="action-button">❓ Поддержка</a>
+                <button (click)="toggleSettings()" class="action-button">⚙️ Профиль</button>
+            </div>
+        </div>
 
-        <!-- Блок с аватаром и валютами -->
+        <!-- Попап настроек (появляется по клику) -->
+        @if (showSettings) {
+            <div class="settings-popup">
+                <div class="settings-item">Смена аватарки</div>
+                <div class="settings-item">Смена рамки аватарки</div>
+                <div class="settings-item">Смена фона профиля</div>
+            </div>
+        }
+
+        <!-- Блок с аватаром по центру -->
         <div class="header-section">
             <div class="avatar-container">
                 @if(telegram.user.photo_url) {
                     <img [src]="telegram.user.photo_url" alt="User Avatar" class="avatar">
                 }
-            </div>
-            <div class="currency-box">
-                <div class="currency-item">🪙 5,000</div>
-                <div class="currency-item">💎 150</div>
             </div>
         </div>
 
@@ -23,21 +39,15 @@
         <!-- Рейтинги в треугольниках -->
         <div class="ratings-section">
             <a routerLink="/rating" class="rating-triangle">
-                <div class="triangle-shape">
-                    <span class="rank-placeholder">X</span>
-                </div>
+                <div class="triangle-shape"><span class="rank-placeholder">X</span></div>
                 <span class="triangle-label">Топ по фарму</span>
             </a>
             <a routerLink="/rating" class="rating-triangle">
-                <div class="triangle-shape">
-                    <span class="rank-placeholder">X</span>
-                </div>
+                <div class="triangle-shape"><span class="rank-placeholder">X</span></div>
                 <span class="triangle-label">Топ донатер</span>
             </a>
             <a routerLink="/rating" class="rating-triangle">
-                <div class="triangle-shape">
-                    <span class="rank-placeholder">X</span>
-                </div>
+                <div class="triangle-shape"><span class="rank-placeholder">X</span></div>
                 <span class="triangle-label">Топ коллекция</span>
             </a>
         </div>
@@ -46,7 +56,6 @@
         <div class="collection-section">
             <h2>Моя коллекция</h2>
             <div class="items-grid">
-                <!-- Заглушки для карточек коллекции -->
                 <div class="grid-item locked"></div>
                 <div class="grid-item locked"></div>
                 <div class="grid-item locked"></div>
@@ -58,7 +67,6 @@
         <div class="achievements-section">
             <h2>Мои достижения</h2>
             <div class="items-grid">
-                <!-- Заглушки для достижений -->
                 <div class="grid-item locked">?</div>
                 <div class="grid-item locked">?</div>
                 <div class="grid-item locked">?</div>

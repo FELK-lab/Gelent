@@ -2,62 +2,104 @@
     padding: 16px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     text-align: center;
-}
-
-/* --- Хедер: Аватар и Валюты --- */
-.header-section {
+    background-image: url('/assets/images/profile-background.jpg');
+    background-size: cover;
+    background-position: center;
     position: relative;
-    display: inline-block; /* To wrap content size */
-    margin-bottom: 8px;
 }
 
-.avatar-container {
-    width: 100px;
-    height: 100px;
+/* --- Верхний бар --- */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 10;
 }
 
-.avatar {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 3px solid #f0f0f0;
-}
-
-.currency-box {
-    position: absolute;
-    top: 8px;
-    right: -10px; /* Position to the right of the avatar circle */
-    transform: translateX(100%);
-    background: rgba(247, 247, 247, 0.9);
-    backdrop-filter: blur(5px);
+.currency-box-top-left, .actions-box-top-right {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
     border-radius: 10px;
     padding: 6px 10px;
     font-size: 14px;
     font-weight: 600;
-    text-align: left;
 }
 
 .currency-item:first-child {
     margin-bottom: 4px;
 }
 
-/* --- Идентификация --- */
+.actions-box-top-right {
+    display: flex;
+    gap: 8px;
+}
+
+.action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* --- Попап настроек --- */
+.settings-popup {
+    position: absolute;
+    top: 50px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 8px;
+    z-index: 20;
+    text-align: left;
+}
+
+.settings-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.settings-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* --- Центральный блок --- */
+.header-section {
+    margin-bottom: 8px;
+}
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #f0f0f0;
+}
+
 .identity-section {
     margin-bottom: 20px;
 }
-
 .username {
     font-size: 22px;
     font-weight: 600;
     margin: 0;
+    color: #000;
 }
-
 .user-handle {
-    font-size: 14px; /* smaller username */
-    color: #888;
+    font-size: 14px;
+    color: #555;
 }
 
-/* --- Рейтинги (Треугольники) --- */
+/* --- Остальные секции --- */
+.ratings-section, .collection-section, .achievements-section {
+    position: relative;
+    z-index: 5;
+}
 .ratings-section {
     display: flex;
     justify-content: space-around;
@@ -75,7 +117,7 @@
 .triangle-shape {
     width: 70px;
     height: 65px;
-    background-color: #f0f0f0;
+    background-color: rgba(240, 240, 240, 0.8);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     display: flex;
     align-items: center;
@@ -84,44 +126,35 @@
     transition: background-color 0.2s;
 }
 .rating-triangle:hover .triangle-shape {
-    background-color: #e0e0e0;
+    background-color: rgba(224, 224, 224, 0.9);
 }
-
 .rank-placeholder {
-    color: #999;
+    color: #333;
     font-size: 20px;
     font-weight: 700;
 }
-
 .triangle-label {
     font-size: 12px;
     font-weight: 500;
+    color: #000;
 }
-
-/* --- Коллекция и Достижения --- */
-.collection-section, .achievements-section {
-    margin-bottom: 24px;
-}
-
 .collection-section h2, .achievements-section h2 {
     font-size: 20px;
     margin-bottom: 12px;
+    color: #000;
 }
-
 .items-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
 }
-
 .grid-item {
-    aspect-ratio: 1 / 1; /* Make items square */
+    aspect-ratio: 1 / 1;
     border-radius: 12px;
 }
-
 .grid-item.locked {
-    background-color: #e0e0e0;
-    color: #aaa;
+    background-color: rgba(224, 224, 224, 0.8);
+    color: #888;
     display: flex;
     align-items: center;
     justify-content: center;

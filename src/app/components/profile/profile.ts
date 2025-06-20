@@ -11,9 +11,14 @@ import { RouterLink } from '@angular/router';
 })
 export class Profile {
   telegram = inject(Telegram);
+  showSettings = false;
 
   constructor() {
     // Данные пользователя теперь доступны через this.telegram.user
     // Например, this.telegram.user?.first_name
+  }
+
+  toggleSettings() {
+    this.showSettings = !this.showSettings;
   }
 }
