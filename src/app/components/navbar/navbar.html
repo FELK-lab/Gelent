@@ -1,4 +1,9 @@
 <nav class="navbar">
+    @if (!isProfilePage) {
+        <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+            <span>Мой профиль</span>
+        </a>
+    }
     <a routerLink="/collection" routerLinkActive="active" class="nav-item">
         <span>Моя коллекция</span>
     </a>

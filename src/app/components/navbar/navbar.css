@@ -4,13 +4,13 @@
     justify-content: space-around; /* Distribute items evenly */
     align-items: center;
     background-color: #ffffff;
-    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0; /* Changed from border-top */
     padding: 8px 0;
     position: fixed;
-    bottom: 0;
+    top: 0; /* Changed from bottom */
     left: 0;
     width: 100%;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Changed from negative */
     z-index: 1000; /* Ensure it's on top of other content */
 }
 
