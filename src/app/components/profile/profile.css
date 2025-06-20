@@ -6,13 +6,14 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    overflow-x: hidden;
 }
 
 /* --- Верхний бар --- */
 .top-bar {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-start; /* Выравнивание по верху */
     margin-bottom: 16px;
     position: relative;
     z-index: 10;
@@ -39,8 +40,8 @@
 
 .actions-box-top-right {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Кнопки в столбик */
+    align-items: flex-start; /* Текст кнопок по левому краю */
     gap: 4px;
 }
 
@@ -53,6 +54,9 @@
     font-weight: 600;
     padding: 0;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* --- Попап настроек --- */

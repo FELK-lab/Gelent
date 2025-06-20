@@ -75,41 +75,41 @@ export class Farm implements OnInit {
     });
   }
 
-  async attack() {
+  attack() {
     if (this.isAttacking) return;
     const target = this.findNearestEnemy();
     if (!target) return;
 
     this.isAttacking = true;
 
-    try {
-      // 1. Двигаемся к врагу
-      this.player.x = target.x;
-      this.player.y = target.y;
-      await new Promise(res => setTimeout(res, 500)); // Анимация движения
+    // Шаг 1: Перемещаемся к врагу
+    this.player.x = target.x;
+    this.player.y = target.y;
 
-      // 2. Враг побежден
+    // Шаг 2: Через 500мс (после перемещения) убиваем врага
+    setTimeout(() => {
       target.isAlive = false;
       this.playerState.addGold(15);
       this.player.xp += 2;
 
-      // 3. Проверка уровня
+      // Проверяем уровень
       if (this.player.xp >= this.player.xpToNextLevel) {
         this.player.level++;
-        this.player.xp = 0; // Сбрасываем опыт на новом уровне
+        this.player.xp = 0;
         this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
       }
 
-      // 4. Спаун нового врага через 1с
-      setTimeout(() => this.spawnEnemy(), 1000);
-
-    } finally {
-      // 5. Возвращаемся на базу
+      // Шаг 3: Еще через 500мс возвращаемся на базу
       setTimeout(() => {
         this.player.x = 150;
         this.player.y = 200;
-        this.isAttacking = false; // <-- ГЛАВНОЕ: Разблокируем кнопку
-      }, 800);
-    }
+
+        // Шаг 4: Еще через 500мс спауним нового врага и РАЗБЛОКИРУЕМ кнопку
+        setTimeout(() => {
+          this.spawnEnemy();
+          this.isAttacking = false; 
+        }, 500);
+      }, 500);
+    }, 500);
   }
 }
