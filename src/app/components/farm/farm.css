@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100%;
     background-color: #e0f2e9; /* Светло-зеленый фон */
+    overflow: hidden; /* Убедимся, что сама ферма не прокручивается */
 }
 
 /* --- Игровой мир --- */
