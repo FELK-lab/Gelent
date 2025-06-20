@@ -15,7 +15,6 @@ interface Player extends Character {
 
 interface Enemy extends Character {
   id: number;
-  hp: number;
   isAlive: boolean;
   image: string;
 }
@@ -59,7 +58,6 @@ export class Farm implements OnInit {
       id: this.enemyIdCounter++,
       x: Math.random() * 280 + 10, // Случайная позиция по X
       y: Math.random() * 150 + 20, // Случайная позиция по Y
-      hp: 3, // Враг умирает за 3 удара
       isAlive: true,
       image: randomImage,
     };
@@ -70,55 +68,48 @@ export class Farm implements OnInit {
     const livingEnemies = this.enemies.filter(e => e.isAlive);
     if (livingEnemies.length === 0) return null;
 
-    let nearestEnemy: Enemy | null = null;
-    let minDistance = Infinity;
-
-    for (const enemy of livingEnemies) {
-      const distance = Math.sqrt(Math.pow(this.player.x - enemy.x, 2) + Math.pow(this.player.y - enemy.y, 2));
-      if (distance < minDistance) {
-        minDistance = distance;
-        nearestEnemy = enemy;
-      }
-    }
-    return nearestEnemy;
+    return livingEnemies.reduce((nearest, enemy) => {
+      const distToEnemy = Math.hypot(this.player.x - enemy.x, this.player.y - enemy.y);
+      const distToNearest = Math.hypot(this.player.x - nearest.x, this.player.y - nearest.y);
+      return distToEnemy < distToNearest ? enemy : nearest;
+    });
   }
 
   async attack() {
     if (this.isAttacking) return;
-
     const target = this.findNearestEnemy();
     if (!target) return;
 
     this.isAttacking = true;
 
     try {
-      // 1. Перемещение к врагу
+      // 1. Двигаемся к врагу
       this.player.x = target.x;
       this.player.y = target.y;
-      await new Promise(resolve => setTimeout(resolve, 500)); // Анимация перемещения
+      await new Promise(res => setTimeout(res, 500)); // Анимация движения
 
-      // 2. Мгновенное убийство и получение наград
+      // 2. Враг побежден
       target.isAlive = false;
       this.playerState.addGold(15);
       this.player.xp += 2;
 
-      // 3. Проверка на повышение уровня
+      // 3. Проверка уровня
       if (this.player.xp >= this.player.xpToNextLevel) {
         this.player.level++;
-        this.player.xp -= this.player.xpToNextLevel;
+        this.player.xp = 0; // Сбрасываем опыт на новом уровне
         this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
       }
-      
-      // 4. Респаун нового врага
+
+      // 4. Спаун нового врага через 1с
       setTimeout(() => this.spawnEnemy(), 1000);
 
     } finally {
-      // 5. Возвращение на базу и сброс состояния
+      // 5. Возвращаемся на базу
       setTimeout(() => {
         this.player.x = 150;
         this.player.y = 200;
-        this.isAttacking = false;
-      }, 1500);
+        this.isAttacking = false; // <-- ГЛАВНОЕ: Разблокируем кнопку
+      }, 800);
     }
   }
 }
