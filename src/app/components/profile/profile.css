@@ -13,7 +13,7 @@
 .top-bar {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Выравнивание по верху */
+    align-items: flex-start;
     margin-bottom: 16px;
     position: relative;
     z-index: 10;
@@ -33,15 +33,14 @@
     align-items: center;
     gap: 4px;
 }
-
 .currency-item:first-child {
     margin-bottom: 4px;
 }
 
 .actions-box-top-right {
     display: flex;
-    flex-direction: column; /* Кнопки в столбик */
-    align-items: flex-start; /* Текст кнопок по левому краю */
+    flex-direction: column;
+    align-items: flex-start;
     gap: 4px;
 }
 
