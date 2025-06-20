@@ -85,6 +85,8 @@
 /* --- Центральный блок --- */
 .header-section {
     margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
 }
 .avatar {
     width: 140px;

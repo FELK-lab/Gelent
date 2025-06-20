@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { PlayerStateService } from '../../services/player-state.service';
+import { Subject, Subscription, of } from 'rxjs';
+import { exhaustMap, tap, delay } from 'rxjs/operators';
 
 // Определяем типы для удобства
 interface Character {
@@ -24,7 +26,7 @@ interface Enemy extends Character {
   templateUrl: './farm.html',
   styleUrls: ['./farm.css']
 })
-export class Farm implements OnInit {
+export class Farm implements OnInit, OnDestroy {
   playerState = inject(PlayerStateService);
 
   player: Player = {
@@ -37,6 +39,9 @@ export class Farm implements OnInit {
 
   enemies: Enemy[] = [];
   isAttacking = false;
+  
+  private attackRequest = new Subject<void>();
+  private subscription!: Subscription;
   private enemyIdCounter = 0;
   private enemyTypes = [
     '/assets/images/ORK.jpg',
@@ -48,6 +53,42 @@ export class Farm implements OnInit {
     for (let i = 0; i < 3; i++) {
       this.spawnEnemy();
     }
+
+    this.subscription = this.attackRequest.pipe(
+      exhaustMap(() => {
+        const target = this.findNearestEnemy();
+        if (!target) return of(null);
+        
+        return of(target).pipe(
+          tap(() => { this.isAttacking = true; }),
+          tap(t => { this.player.x = t.x; this.player.y = t.y; }),
+          delay(500),
+          tap(t => {
+            t.isAlive = false;
+            this.playerState.addGold(15);
+            this.player.xp += 2;
+
+            // Проверяем уровень
+            if (this.player.xp >= this.player.xpToNextLevel) {
+              this.player.level++;
+              this.player.xp = 0;
+              this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
+            }
+          }),
+          delay(500),
+          tap(() => { this.player.x = 150; this.player.y = 200; }),
+          delay(500),
+          tap(() => { 
+            this.spawnEnemy();
+            this.isAttacking = false;
+          })
+        );
+      })
+    ).subscribe();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   spawnEnemy() {
@@ -76,40 +117,6 @@ export class Farm implements OnInit {
   }
 
   attack() {
-    if (this.isAttacking) return;
-    const target = this.findNearestEnemy();
-    if (!target) return;
-
-    this.isAttacking = true;
-
-    // Шаг 1: Перемещаемся к врагу
-    this.player.x = target.x;
-    this.player.y = target.y;
-
-    // Шаг 2: Через 500мс (после перемещения) убиваем врага
-    setTimeout(() => {
-      target.isAlive = false;
-      this.playerState.addGold(15);
-      this.player.xp += 2;
-
-      // Проверяем уровень
-      if (this.player.xp >= this.player.xpToNextLevel) {
-        this.player.level++;
-        this.player.xp = 0;
-        this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
-      }
-
-      // Шаг 3: Еще через 500мс возвращаемся на базу
-      setTimeout(() => {
-        this.player.x = 150;
-        this.player.y = 200;
-
-        // Шаг 4: Еще через 500мс спауним нового врага и РАЗБЛОКИРУЕМ кнопку
-        setTimeout(() => {
-          this.spawnEnemy();
-          this.isAttacking = false; 
-        }, 500);
-      }, 500);
-    }, 500);
+    this.attackRequest.next();
   }
 }
