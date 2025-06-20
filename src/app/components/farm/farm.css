@@ -1,0 +1,100 @@
+.farm-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #e0f2e9; /* Светло-зеленый фон */
+}
+
+/* --- Игровой мир --- */
+.game-world {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid #b3c9b3;
+}
+
+.player, .enemy {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: top 0.5s ease-in-out, left 0.5s ease-in-out;
+}
+
+/* --- Игровой UI --- */
+.game-ui {
+    padding: 12px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Уровень и опыт */
+.xp-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.level-badge {
+    background-color: #8b5cf6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.xp-bar {
+    flex-grow: 1;
+    height: 16px;
+    background-color: #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.xp-progress {
+    height: 100%;
+    background-color: #a78bfa;
+    transition: width 0.3s ease;
+}
+.xp-text {
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Инвентарь */
+.inventory {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+.inventory-slot {
+    aspect-ratio: 1 / 1;
+    background-color: #d1d5db;
+    border: 2px dashed #9ca3af;
+    border-radius: 8px;
+}
+
+/* Кнопка */
+.action-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    background-color: #ef4444;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.action-button:hover {
+    background-color: #dc2626;
+}
+.action-button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}

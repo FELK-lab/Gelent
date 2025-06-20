@@ -1,1 +1,46 @@
-<p>farm works!</p>
+<div class="farm-container">
+    <!-- Игровой мир -->
+    <div class="game-world">
+        <!-- Персонаж -->
+        <div class="player" [style.left.px]="player.x" [style.top.px]="player.y">
+            <!-- Временно используем эмодзи -->
+            🧑‍🌾
+        </div>
+
+        <!-- Враги -->
+        @for(enemy of enemies; track enemy.id) {
+            @if(enemy.isAlive) {
+                <div class="enemy" [style.left.px]="enemy.x" [style.top.px]="enemy.y">
+                    <!-- Временно используем эмодзи -->
+                    몬
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Пользовательский интерфейс -->
+    <div class="game-ui">
+        <!-- Уровень и опыт -->
+        <div class="xp-bar-container">
+            <div class="level-badge">Ур. {{ player.level }}</div>
+            <div class="xp-bar">
+                <div class="xp-progress" [style.width.%]="(player.xp / player.xpToNextLevel) * 100"></div>
+            </div>
+            <span class="xp-text">{{ player.xp }} / {{ player.xpToNextLevel }}</span>
+        </div>
+
+        <!-- Инвентарь -->
+        <div class="inventory">
+            <div class="inventory-slot" title="Голова"></div>
+            <div class="inventory-slot" title="Оружие"></div>
+            <div class="inventory-slot" title="Тело"></div>
+            <div class="inventory-slot" title="Ноги"></div>
+            <div class="inventory-slot" title="Бафф"></div>
+        </div>
+
+        <!-- Кнопка действия -->
+        <button class="action-button" (click)="attack()" [disabled]="isAttacking">
+            {{ isAttacking ? 'Атакую...' : 'Атаковать' }}
+        </button>
+    </div>
+</div>

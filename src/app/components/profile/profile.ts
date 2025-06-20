@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Telegram } from '../../services/telegram';
 import { RouterLink } from '@angular/router';
+import { PlayerStateService } from '../../services/player-state.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,11 +12,12 @@ import { RouterLink } from '@angular/router';
 })
 export class Profile {
   telegram = inject(Telegram);
+  playerState = inject(PlayerStateService);
   showSettings = false;
 
   constructor() {
     // Данные пользователя теперь доступны через this.telegram.user
-    // Например, this.telegram.user?.first_name
+    // Золото теперь берется из playerState
   }
 
   toggleSettings() {
