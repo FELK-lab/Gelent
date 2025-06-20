@@ -1,7 +1,3 @@
-[build]
-  command = "ng build"
-  publish = "dist/tg-miniapp-new/browser"
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
