@@ -21,7 +21,7 @@
     align-items: center;
     text-decoration: none;
     color: #888888;
-    font-size: 14px; /* Increased font size */
+    font-size: 16px; /* Increased font size again */
     padding: 4px 12px;
     border-radius: 8px;
     transition: background-color 0.3s, color 0.3s;

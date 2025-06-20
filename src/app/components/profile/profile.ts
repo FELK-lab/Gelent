@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Telegram } from '../../services/telegram';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })

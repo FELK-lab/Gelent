@@ -1,23 +1,49 @@
 @if (telegram.user) {
     <div class="profile-container">
-        @if(telegram.user.photo_url) {
-            <img [src]="telegram.user.photo_url" alt="User Avatar" class="avatar">
-        }
+        <div class="profile-header">
+            @if(telegram.user.photo_url) {
+                <img [src]="telegram.user.photo_url" alt="User Avatar" class="avatar">
+            }
+            <div class="currency-box">
+                <div class="currency-item">
+                    <span class="currency-label">Золото</span>
+                    <span class="currency-value">5,000</span> <!-- Заглушка -->
+                </div>
+                <div class="currency-item">
+                    <span class="currency-label">Алмазы</span>
+                    <span class="currency-value">150</span> <!-- Заглушка -->
+                </div>
+            </div>
+        </div>
+
         <h1 class="username">{{ telegram.user.first_name }} {{ telegram.user.last_name }}</h1>
         <p class="user-handle">{{ telegram.user.username ? '@' + telegram.user.username : 'ID: ' + telegram.user.id }}</p>
         
-        <a routerLink="/rating" class="stats-container-link">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-label">Рейтинг</span>
-                    <span class="stat-value">#123</span> <!-- Заглушка -->
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Золото</span>
-                    <span class="stat-value">5,000</span> <!-- Заглушка -->
-                </div>
+        <div class="ratings-list">
+            <a routerLink="/rating" class="list-item">
+                <span>🏆 Топ по фарму</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <a routerLink="/rating" class="list-item">
+                <span>💎 Топ донатер</span>
+                <span class="arrow">&gt;</span>
+            </a>
+            <a routerLink="/rating" class="list-item">
+                <span>🃏 Топ коллекция</span>
+                <span class="arrow">&gt;</span>
+            </a>
+        </div>
+
+        <div class="achievements-section">
+            <h2>Мои достижения</h2>
+            <div class="achievements-grid">
+                <!-- Заглушки для достижений -->
+                <div class="achievement-item locked">?</div>
+                <div class="achievement-item locked">?</div>
+                <div class="achievement-item locked">?</div>
+                <div class="achievement-item locked">?</div>
             </div>
-        </a>
+        </div>
     </div>
 } @else {
     <div class="profile-container">
