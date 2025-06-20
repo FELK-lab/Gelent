@@ -40,8 +40,8 @@ export class Farm implements OnInit {
   isAttacking = false;
   private enemyIdCounter = 0;
   private enemyTypes = [
-    '../../../assets/images/ORK.jpg',
-    '../../../assets/images/Kras.jpg'
+    '/assets/images/ORK.jpg',
+    '/assets/images/Kras.jpg'
   ];
 
   ngOnInit() {

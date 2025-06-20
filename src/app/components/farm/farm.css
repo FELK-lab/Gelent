@@ -17,7 +17,7 @@
     position: relative;
     overflow: hidden;
     border-bottom: 2px solid #b3c9b3;
-    background-image: url('../../../assets/images/fon.jpg');
+    background-image: url('/assets/images/fon.jpg');
     background-size: cover;
     background-position: center;
 }
