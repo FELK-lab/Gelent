@@ -40,8 +40,8 @@ export class Farm implements OnInit {
   isAttacking = false;
   private enemyIdCounter = 0;
   private enemyTypes = [
-    '/assets/images/ORK.jpg',
-    '/assets/images/Kras.jpg'
+    'assets/images/ORK.jpg',
+    'assets/images/Kras.jpg'
   ];
 
   ngOnInit() {
@@ -91,42 +91,46 @@ export class Farm implements OnInit {
 
     this.isAttacking = true;
 
-    // 1. Перемещение к врагу
-    this.player.x = target.x;
-    this.player.y = target.y;
+    try {
+      // 1. Перемещение к врагу
+      this.player.x = target.x;
+      this.player.y = target.y;
 
-    // Ждем завершения анимации перемещения (CSS transition)
-    await new Promise(resolve => setTimeout(resolve, 500));
+      // Ждем завершения анимации перемещения (CSS transition)
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-    // 2. Атака (3 удара)
-    for (let i = 0; i < 3; i++) {
-        target.hp--;
-        // Тут можно добавить анимацию удара
-        await new Promise(resolve => setTimeout(resolve, 300));
+      // 2. Атака (3 удара)
+      for (let i = 0; i < 3; i++) {
+          target.hp--;
+          // Тут можно добавить анимацию удара
+          await new Promise(resolve => setTimeout(resolve, 300));
+      }
+      
+      // 3. Враг побежден
+      target.isAlive = false;
+      this.playerState.addGold(15);
+      this.player.xp += 2;
+
+      // 4. Проверка на повышение уровня
+      if (this.player.xp >= this.player.xpToNextLevel) {
+        this.player.level++;
+        this.player.xp -= this.player.xpToNextLevel;
+        this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
+      }
+      
+      // 5. Респаун нового врага через секунду
+      setTimeout(() => {
+          this.spawnEnemy();
+      }, 1000);
+
+    } finally {
+      // 6. Возвращение на исходную и готовность к новой атаке
+      // Этот блок выполнится ВСЕГДА, даже если выше будет ошибка
+      setTimeout(() => {
+          this.player.x = 150;
+          this.player.y = 200;
+          this.isAttacking = false;
+      }, 1500);
     }
-    
-    // 3. Враг побежден
-    target.isAlive = false;
-    this.playerState.addGold(15);
-    this.player.xp += 2;
-
-    // 4. Проверка на повышение уровня
-    if (this.player.xp >= this.player.xpToNextLevel) {
-      this.player.level++;
-      this.player.xp -= this.player.xpToNextLevel;
-      this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
-    }
-    
-    // 5. Респаун нового врага через секунду
-    setTimeout(() => {
-        this.spawnEnemy();
-    }, 1000);
-
-    // 6. Возвращение на исходную и готовность к новой атаке
-    setTimeout(() => {
-        this.player.x = 150;
-        this.player.y = 200;
-        this.isAttacking = false;
-    }, 1500);
   }
 }
