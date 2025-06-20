@@ -1,53 +1,74 @@
 @if (telegram.user) {
     <div class="profile-container">
-        <div class="profile-header">
-            @if(telegram.user.photo_url) {
-                <img [src]="telegram.user.photo_url" alt="User Avatar" class="avatar">
-            }
+
+        <!-- Блок с аватаром и валютами -->
+        <div class="header-section">
+            <div class="avatar-container">
+                @if(telegram.user.photo_url) {
+                    <img [src]="telegram.user.photo_url" alt="User Avatar" class="avatar">
+                }
+            </div>
             <div class="currency-box">
-                <div class="currency-item">
-                    <span class="currency-label">Золото</span>
-                    <span class="currency-value">5,000</span> <!-- Заглушка -->
-                </div>
-                <div class="currency-item">
-                    <span class="currency-label">Алмазы</span>
-                    <span class="currency-value">150</span> <!-- Заглушка -->
-                </div>
+                <div class="currency-item">🪙 5,000</div>
+                <div class="currency-item">💎 150</div>
             </div>
         </div>
 
-        <h1 class="username">{{ telegram.user.first_name }} {{ telegram.user.last_name }}</h1>
-        <p class="user-handle">{{ telegram.user.username ? '@' + telegram.user.username : 'ID: ' + telegram.user.id }}</p>
-        
-        <div class="ratings-list">
-            <a routerLink="/rating" class="list-item">
-                <span>🏆 Топ по фарму</span>
-                <span class="arrow">&gt;</span>
+        <!-- Имя пользователя -->
+        <div class="identity-section">
+            <h1 class="username">{{ telegram.user.first_name }} {{ telegram.user.last_name }}</h1>
+            <p class="user-handle">{{ telegram.user.username ? '@' + telegram.user.username : 'ID: ' + telegram.user.id }}</p>
+        </div>
+
+        <!-- Рейтинги в треугольниках -->
+        <div class="ratings-section">
+            <a routerLink="/rating" class="rating-triangle">
+                <div class="triangle-shape">
+                    <span class="rank-placeholder">X</span>
+                </div>
+                <span class="triangle-label">Топ по фарму</span>
             </a>
-            <a routerLink="/rating" class="list-item">
-                <span>💎 Топ донатер</span>
-                <span class="arrow">&gt;</span>
+            <a routerLink="/rating" class="rating-triangle">
+                <div class="triangle-shape">
+                    <span class="rank-placeholder">X</span>
+                </div>
+                <span class="triangle-label">Топ донатер</span>
             </a>
-            <a routerLink="/rating" class="list-item">
-                <span>🃏 Топ коллекция</span>
-                <span class="arrow">&gt;</span>
+            <a routerLink="/rating" class="rating-triangle">
+                <div class="triangle-shape">
+                    <span class="rank-placeholder">X</span>
+                </div>
+                <span class="triangle-label">Топ коллекция</span>
             </a>
         </div>
 
+        <!-- Моя коллекция -->
+        <div class="collection-section">
+            <h2>Моя коллекция</h2>
+            <div class="items-grid">
+                <!-- Заглушки для карточек коллекции -->
+                <div class="grid-item locked"></div>
+                <div class="grid-item locked"></div>
+                <div class="grid-item locked"></div>
+                <div class="grid-item locked"></div>
+            </div>
+        </div>
+
+        <!-- Мои достижения -->
         <div class="achievements-section">
             <h2>Мои достижения</h2>
-            <div class="achievements-grid">
+            <div class="items-grid">
                 <!-- Заглушки для достижений -->
-                <div class="achievement-item locked">?</div>
-                <div class="achievement-item locked">?</div>
-                <div class="achievement-item locked">?</div>
-                <div class="achievement-item locked">?</div>
+                <div class="grid-item locked">?</div>
+                <div class="grid-item locked">?</div>
+                <div class="grid-item locked">?</div>
+                <div class="grid-item locked">?</div>
             </div>
         </div>
     </div>
 } @else {
     <div class="profile-container">
         <h1>Профиль</h1>
-        <p>Не удалось получить данные пользователя. Пожалуйста, убедитесь, что вы открыли приложение через Telegram.</p>
+        <p>Не удалось получить данные пользователя.</p>
     </div>
 }

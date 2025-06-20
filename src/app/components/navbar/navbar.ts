@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, RouterLink, RouterLinkActive]
 })
 export class Navbar {
-  currentUrl: string = '/profile';
+  currentUrl: string = '';
   private router = inject(Router);
 
   constructor() {
