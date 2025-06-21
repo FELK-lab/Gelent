@@ -5,18 +5,29 @@ import debounce from 'lodash.debounce';
   providedIn: 'root'
 })
 export class PlayerStateService {
-  // Используем signal для автоматического обновления в компонентах
-  public gold = signal(5000); 
+  private readonly GOLD_STORAGE_KEY = 'playerGold';
+  public gold = signal(this.loadGold()); 
 
-  // В будущем эта функция будет отправлять данные на сервер
-  private saveGoldToBackend(newGold: number) {
-    console.log(`Debounced: Saving gold ${newGold} to backend...`);
-    // Здесь будет вызов API, например:
-    // this.http.post('/api/user/gold', { gold: newGold }).subscribe();
+  constructor() {
+    // Начальное значение уже установлено через loadGold()
   }
 
-  // Создаем debounced-версию функции сохранения с задержкой в 1 секунду
-  private debouncedSave = debounce((newGold: number) => this.saveGoldToBackend(newGold), 1000);
+  private loadGold(): number {
+    if (typeof window !== 'undefined') {
+      const savedGold = window.localStorage.getItem(this.GOLD_STORAGE_KEY);
+      return savedGold ? parseInt(savedGold, 10) : 5000;
+    }
+    return 5000;
+  }
+
+  private saveGold(newGold: number) {
+    if (typeof window !== 'undefined') {
+      console.log(`Saving gold ${newGold} to localStorage...`);
+      window.localStorage.setItem(this.GOLD_STORAGE_KEY, newGold.toString());
+    }
+  }
+
+  private debouncedSave = debounce((newGold: number) => this.saveGold(newGold), 1000);
 
   // Метод для добавления золота
   addGold(amount: number) {

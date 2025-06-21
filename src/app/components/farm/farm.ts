@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PlayerStateService } from '../../services/player-state.service';
 import { CommonModule } from '@angular/common';
+import debounce from 'lodash.debounce';
 
 interface Player {
   level: number;
@@ -23,8 +24,9 @@ interface FloatingText {
   templateUrl: './farm.html',
   styleUrls: ['./farm.css']
 })
-export class Farm {
+export class Farm implements OnInit {
   playerState = inject(PlayerStateService);
+  private readonly PLAYER_STATE_KEY = 'farmPlayerState';
 
   player: Player = {
     level: 1,
@@ -35,6 +37,12 @@ export class Farm {
 
   floatingTexts: FloatingText[] = [];
   private floatingTextIdCounter = 0;
+
+  private debouncedSave = debounce(() => this.savePlayerState(), 500);
+
+  ngOnInit(): void {
+    this.loadPlayerState();
+  }
 
   get xpPercentage(): number {
     return (this.player.xp / this.player.xpToNextLevel) * 100;
@@ -53,7 +61,8 @@ export class Farm {
       this.player.damage++; // Увеличиваем урон с уровнем
     }
 
-    // 3. Создаем всплывающий текст
+    // 3. Сохраняем и показываем всплывающий текст
+    this.debouncedSave();
     this.createFloatingText(event);
   }
 
@@ -70,5 +79,20 @@ export class Farm {
     setTimeout(() => {
       this.floatingTexts = this.floatingTexts.filter(t => t.id !== text.id);
     }, 1000);
+  }
+
+  private savePlayerState() {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(this.PLAYER_STATE_KEY, JSON.stringify(this.player));
+    }
+  }
+
+  private loadPlayerState() {
+    if (typeof window !== 'undefined') {
+      const savedState = window.localStorage.getItem(this.PLAYER_STATE_KEY);
+      if (savedState) {
+        this.player = JSON.parse(savedState);
+      }
+    }
   }
 }
