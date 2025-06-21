@@ -1,22 +1,6 @@
 <nav class="navbar">
-    @if (currentUrl !== '/profile') {
-        <a routerLink="/profile" routerLinkActive="active" class="nav-item">
-            <span>Мой профиль</span>
-        </a>
-    }
-    @if (currentUrl !== '/collection') {
-        <a routerLink="/collection" routerLinkActive="active" class="nav-item">
-            <span>Моя коллекция</span>
-        </a>
-    }
-    @if (currentUrl !== '/farm') {
-        <a routerLink="/farm" routerLinkActive="active" class="nav-item">
-            <span>Фарм</span>
-        </a>
-    }
-    @if (currentUrl !== '/market') {
-        <a routerLink="/market" routerLinkActive="active" class="nav-item">
-            <span>Рынок</span>
-        </a>
-    }
+    <a routerLink="/profile" routerLinkActive="active-link">Мой профиль</a>
+    <a routerLink="/collection" routerLinkActive="active-link">Моя коллекция</a>
+    <a routerLink="/farm" routerLinkActive="active-link">Фарм</a>
+    <a routerLink="/market" routerLinkActive="active-link">Рынок</a>
 </nav>

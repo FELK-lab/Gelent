@@ -34,6 +34,12 @@
     backdrop-filter: blur(5px);
 }
 
+.actions-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
 .currency-item, .action-button {
     color: #2d3748;
     font-weight: bold;
