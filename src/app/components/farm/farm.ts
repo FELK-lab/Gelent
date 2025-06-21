@@ -1,122 +1,74 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PlayerStateService } from '../../services/player-state.service';
-import { Subject, Subscription, of } from 'rxjs';
-import { exhaustMap, tap, delay } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
-// Определяем типы для удобства
-interface Character {
+interface Player {
+  level: number;
+  xp: number;
+  xpToNextLevel: number;
+  damage: number; // Сколько золота и опыта за тап
+}
+
+interface FloatingText {
+  id: number;
+  value: string;
   x: number;
   y: number;
 }
 
-interface Player extends Character {
-  level: number;
-  xp: number;
-  xpToNextLevel: number;
-}
-
-interface Enemy extends Character {
-  id: number;
-  isAlive: boolean;
-  image: string;
-}
-
 @Component({
   selector: 'app-farm',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './farm.html',
   styleUrls: ['./farm.css']
 })
-export class Farm implements OnInit, OnDestroy {
+export class Farm {
   playerState = inject(PlayerStateService);
 
   player: Player = {
-    x: 150,
-    y: 200,
     level: 1,
     xp: 0,
-    xpToNextLevel: 15
+    xpToNextLevel: 15,
+    damage: 1,
   };
 
-  enemies: Enemy[] = [];
-  isAttacking = false;
-  
-  private attackRequest = new Subject<void>();
-  private subscription!: Subscription;
-  private enemyIdCounter = 0;
-  private enemyTypes = [
-    '/assets/images/ORK.jpg',
-    '/assets/images/Kras.jpg'
-  ];
+  floatingTexts: FloatingText[] = [];
+  private floatingTextIdCounter = 0;
 
-  ngOnInit() {
-    // Создаем начальных врагов
-    for (let i = 0; i < 3; i++) {
-      this.spawnEnemy();
+  get xpPercentage(): number {
+    return (this.player.xp / this.player.xpToNextLevel) * 100;
+  }
+
+  onTap(event: MouseEvent) {
+    // 1. Добавляем золото через сервис
+    this.playerState.addGold(this.player.damage);
+
+    // 2. Добавляем опыт и проверяем левел-ап
+    this.player.xp += this.player.damage;
+    if (this.player.xp >= this.player.xpToNextLevel) {
+      this.player.level++;
+      this.player.xp = this.player.xp - this.player.xpToNextLevel;
+      this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
+      this.player.damage++; // Увеличиваем урон с уровнем
     }
 
-    this.subscription = this.attackRequest.pipe(
-      exhaustMap(() => {
-        const target = this.findNearestEnemy();
-        if (!target) return of(null);
-        
-        return of(target).pipe(
-          tap(() => { this.isAttacking = true; }),
-          tap(t => { this.player.x = t.x; this.player.y = t.y; }),
-          delay(500),
-          tap(t => {
-            t.isAlive = false;
-            this.playerState.addGold(15);
-            this.player.xp += 2;
-
-            // Проверяем уровень
-            if (this.player.xp >= this.player.xpToNextLevel) {
-              this.player.level++;
-              this.player.xp = 0;
-              this.player.xpToNextLevel = Math.floor(this.player.xpToNextLevel * 1.5);
-            }
-          }),
-          delay(500),
-          tap(() => { this.player.x = 150; this.player.y = 200; }),
-          delay(500),
-          tap(() => { 
-            this.spawnEnemy();
-            this.isAttacking = false;
-          })
-        );
-      })
-    ).subscribe();
+    // 3. Создаем всплывающий текст
+    this.createFloatingText(event);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  spawnEnemy() {
-    // Выбираем случайный тип врага
-    const randomImage = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
-
-    const newEnemy: Enemy = {
-      id: this.enemyIdCounter++,
-      x: Math.random() * 280 + 10, // Случайная позиция по X
-      y: Math.random() * 150 + 20, // Случайная позиция по Y
-      isAlive: true,
-      image: randomImage,
+  private createFloatingText(event: MouseEvent) {
+    const text: FloatingText = {
+      id: this.floatingTextIdCounter++,
+      value: `+${this.player.damage}`,
+      x: event.clientX,
+      y: event.clientY,
     };
-    this.enemies.push(newEnemy);
-  }
+    this.floatingTexts.push(text);
 
-  findNearestEnemy(): Enemy | null {
-    const livingEnemies = this.enemies.filter(e => e.isAlive);
-    if (livingEnemies.length === 0) return null;
-
-    return livingEnemies.reduce((nearest, enemy) => {
-      const distToEnemy = Math.hypot(this.player.x - enemy.x, this.player.y - enemy.y);
-      const distToNearest = Math.hypot(this.player.x - nearest.x, this.player.y - nearest.y);
-      return distToEnemy < distToNearest ? enemy : nearest;
-    });
-  }
-
-  attack() {
-    this.attackRequest.next();
+    // Удаляем текст через 1 секунду
+    setTimeout(() => {
+      this.floatingTexts = this.floatingTexts.filter(t => t.id !== text.id);
+    }, 1000);
   }
 }

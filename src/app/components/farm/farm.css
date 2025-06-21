@@ -1,14 +1,109 @@
+/* Общий контейнер */
 .farm-container {
     display: flex;
     flex-direction: column;
-    /* 
-      Рассчитываем высоту: 100% высоты видимой области (vh) 
-      минус высота навигационной панели (70px).
-      Это заставит компонент занять всё доступное место.
-    */
-    height: calc(100vh - 70px); 
-    background-color: #e0f2e9; /* Светло-зеленый фон */
-    overflow: hidden; /* Убедимся, что сама ферма не прокручивается */
+    height: calc(100vh - 60px); /* Высота экрана минус навбар */
+    background-color: #1a202c;
+    color: white;
+    padding: 15px;
+    box-sizing: border-box;
+    user-select: none; /* Запрет выделения текста */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Верхняя панель */
+.stats-bar {
+    margin-bottom: 20px;
+}
+
+.level {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.xp-bar-container {
+    width: 100%;
+    height: 25px;
+    background-color: #4a5568;
+    border-radius: 12.5px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #718096;
+}
+
+.xp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #63b3ed, #4299e1);
+    border-radius: 12.5px;
+    transition: width 0.3s ease-in-out;
+}
+
+.xp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px black;
+}
+
+/* Зона для тапов */
+.tap-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tap-image {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #f6e05e;
+    box-shadow: 0 0 20px #f6e05e;
+    transition: transform 0.1s ease;
+}
+
+.tap-area:active .tap-image {
+    transform: scale(0.95);
+}
+
+/* Баланс золота */
+.gold-balance {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #f6e05e;
+}
+
+/* Всплывающий текст */
+.floating-text {
+    position: fixed;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f6e05e;
+    pointer-events: none; /* Текст не должен перехватывать клики */
+    animation: float-up 1s ease-out forwards;
+    text-shadow: 1px 1px 2px black;
+    transform: translateX(-50%); /* Центрируем текст по горизонтали */
+}
+
+@keyframes float-up {
+    from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -80px);
+        opacity: 0;
+    }
 }
 
 /* --- Игровой мир --- */
@@ -49,35 +144,12 @@
 }
 
 /* Уровень и опыт */
-.xp-bar-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
 .level-badge {
     background-color: #8b5cf6;
     color: white;
     padding: 4px 8px;
     border-radius: 6px;
     font-weight: 600;
-}
-.xp-bar {
-    flex-grow: 1;
-    height: 16px;
-    background-color: #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.xp-progress {
-    height: 100%;
-    background-color: #a78bfa;
-    transition: width 0.3s ease;
-}
-.xp-text {
-    font-size: 12px;
-    font-weight: 500;
-    min-width: 60px;
-    text-align: right;
 }
 
 /* Инвентарь */

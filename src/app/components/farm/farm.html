@@ -1,44 +1,28 @@
 <div class="farm-container">
-    <!-- Игровой мир -->
-    <div class="game-world">
-        <!-- Персонаж -->
-        <div class="player" [style.left.px]="player.x" [style.top.px]="player.y">
-            <img src="/assets/images/Slis.jpg" alt="Player">
+    <!-- Верхняя панель: Уровень и опыт -->
+    <div class="stats-bar">
+        <div class="level">Уровень {{ player.level }}</div>
+        <div class="xp-bar-container">
+            <div class="xp-bar" [style.width.%]="xpPercentage"></div>
+            <div class="xp-text">{{ player.xp }} / {{ player.xpToNextLevel }} XP</div>
         </div>
-
-        <!-- Враги -->
-        @for(enemy of enemies; track enemy.id) {
-            @if(enemy.isAlive) {
-                <div class="enemy" [style.left.px]="enemy.x" [style.top.px]="enemy.y">
-                    <img [src]="enemy.image" alt="Enemy">
-                </div>
-            }
-        }
     </div>
 
-    <!-- Пользовательский интерфейс -->
-    <div class="game-ui">
-        <!-- Уровень и опыт -->
-        <div class="xp-bar-container">
-            <div class="level-badge">Ур. {{ player.level }}</div>
-            <div class="xp-bar">
-                <div class="xp-progress" [style.width.%]="(player.xp / player.xpToNextLevel) * 100"></div>
-            </div>
-            <span class="xp-text">{{ player.xp }} / {{ player.xpToNextLevel }}</span>
-        </div>
+    <!-- Центральная область для тапов -->
+    <div class="tap-area" (click)="onTap($event)">
+        <img src="/assets/images/fon.jpg" alt="Tap me!" class="tap-image">
+    </div>
 
-        <!-- Инвентарь -->
-        <div class="inventory">
-            <div class="inventory-slot" title="Голова"></div>
-            <div class="inventory-slot" title="Оружие"></div>
-            <div class="inventory-slot" title="Тело"></div>
-            <div class="inventory-slot" title="Ноги"></div>
-            <div class="inventory-slot" title="Бафф"></div>
-        </div>
+    <!-- Отображение всплывающего текста -->
+    <div *ngFor="let text of floatingTexts"
+         class="floating-text"
+         [style.left.px]="text.x"
+         [style.top.px]="text.y">
+        {{ text.value }}
+    </div>
 
-        <!-- Кнопка действия -->
-        <button class="action-button" (click)="attack()" [disabled]="isAttacking">
-            {{ isAttacking ? 'Атакую...' : 'Атаковать' }}
-        </button>
+    <!-- Нижняя панель: Баланс золота -->
+    <div class="gold-balance">
+        🪙 {{ playerState.formattedGold }}
     </div>
 </div>
