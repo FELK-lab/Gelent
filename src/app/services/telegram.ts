@@ -10,7 +10,7 @@ interface TgUser {
 }
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class Telegram {
     private tg: any;

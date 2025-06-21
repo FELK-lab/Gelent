@@ -1,59 +1,100 @@
-# TgMiniappNew
+# 🎮 Telegram Mini App - Игра-Ферма
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+Telegram Mini App игра с элементами фермы, коллекционирования и рейтинговой системы.
 
-## Development server
+## 🚀 Возможности
 
-To start a local development server, run:
+- **🏠 Профиль игрока** - отображение данных из Telegram, золото, алмазы
+- **⚔️ Ферма** - сражения с врагами, получение опыта и золота
+- **📚 Коллекция** - сбор карт и предметов
+- **🛒 Рынок** - покупка предметов за валюту
+- **🏆 Рейтинг** - соревнования между игроками
+- **🧮 Калькулятор** - игровые вычисления
 
-```bash
-ng serve
-```
+## 🛠 Технологии
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Frontend**: Angular 20 + TypeScript
+- **Telegram**: Web App SDK
+- **State Management**: Angular Signals
+- **Styling**: CSS3 с современным дизайном
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📦 Установка
 
 ```bash
-ng generate --help
+# Клонирование репозитория
+git clone [URL_РЕПОЗИТОРИЯ]
+cd tg-miniapp-new
+
+# Установка зависимостей
+npm install
+
+# Запуск в режиме разработки
+npm start
 ```
 
-## Building
+## 🔧 Настройка
 
-To build the project run:
+1. Создайте бота в Telegram через @BotFather
+2. Получите токен бота
+3. Создайте файл `bot.js` с вашим токеном:
+
+```javascript
+const { Telegraf } = require('telegraf');
+const bot = new Telegraf('ВАШ_ТОКЕН_БОТА');
+// ... остальной код
+```
+
+4. Настройте Web App URL в настройках бота
+
+## 🚀 Развертывание
 
 ```bash
-ng build
+# Сборка для продакшена
+npm run build
+
+# Запуск сервера
+npm run serve:ssr:tg-miniapp-new
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📱 Использование
 
-## Running unit tests
+1. Найдите бота в Telegram
+2. Нажмите кнопку "Launch App"
+3. Играйте в мини-приложении!
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🎯 Игровая механика
 
-```bash
-ng test
-```
+### Ферма
+- Атакуйте врагов для получения золота
+- Получайте опыт и повышайте уровень
+- Автоматический спавн новых врагов
 
-## Running end-to-end tests
+### Экономика
+- **Золото** - основная валюта (фармится в боях)
+- **Алмазы** - премиум валюта (покупка/достижения)
 
-For end-to-end (e2e) testing, run:
+### Рейтинги
+- Топ по фарму
+- Топ донатер
+- Топ коллекция
 
-```bash
-ng e2e
-```
+## 🔒 Безопасность
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Токен бота исключен из репозитория
+- Используется Telegram Web App API для аутентификации
+- Все данные пользователя получаются через официальный SDK
 
-## Additional Resources
+## 📄 Лицензия
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MIT License
+
+## 🤝 Вклад в проект
+
+1. Форкните репозиторий
+2. Создайте ветку для новой функции
+3. Внесите изменения
+4. Создайте Pull Request
+
+---
+
+**Разработано с ❤️ для Telegram**
