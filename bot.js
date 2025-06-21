@@ -6,7 +6,7 @@ bot.start((ctx) => {
   ctx.reply('Welcome! Click the button below to launch the app.', {
     reply_markup: {
       inline_keyboard: [
-        [{ text: 'Launch App', web_app: { url: 'https://ninety-worms-sleep.loca.lt' } }]
+        [{ text: 'Launch App', web_app: { url: 'https://phenomenal-sherbet-ff93ca.netlify.app' } }]
       ]
     }
   });
